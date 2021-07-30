@@ -12,32 +12,39 @@ router.get("/sneakers/:cat", async (req, res, next) => {
   const category = req.params.cat
   let sneakers = null
 
-  if(category === "collection"){
-    sneakers = await Sneaker.find()
+  try{
+    if(category === "collection"){
+      sneakers = await Sneaker.find()
+    }
+    else{
+      sneakers = await Sneaker.find({category})
+    }
+  
+    console.log(sneakers)
+    res.render('products', {
+      category, 
+      sneakers
+    })
   }
-  else{
-    sneakers = await Sneaker.find({category})
+  catch(err){
+    next(err)
   }
-
-  console.log(sneakers)
-  res.render('products', {
-    category, 
-    sneakers
-  })
 });
 
 router.get("/one-product/:id", async (req, res, next ) => {
   const id = req.params.id
-  const sneaker =  await Sneaker.findOne({_id: id})
+
+  try{
+    const sneaker =  await Sneaker.findOne({_id: id})
   
-
-  console.log(sneaker)
-  res.render('one_product', {
-    sneaker
-  })
+    res.render('one_product', {
+      sneaker
+    })
+  }
+  catch(err){
+    next(err)
+  }
 });
-
-
 
 
 module.exports = router;
