@@ -2,10 +2,24 @@ const express = require("express"); // import express in this module
 const router = express.Router(); // create an app sub-module (router)
 const protectPrivateRoute = require('../middlewares/protectPrivateRoute');
 const Sneaker = require("../models/Sneaker");
+const Tag = require("../models/Tag");
 
 //ADD
-router.get('/prod-add', protectPrivateRoute, (req, res, next) => {
-    res.render('products_add')
+router.get('/prod-add', protectPrivateRoute, async (req, res, next) => {
+    
+    try {
+        const tags = await Tag.find();
+        res.render('products_add', {
+            tags: tags
+        })
+    }catch(err){
+        console.log(err)
+        next(err)
+    }
+    
+    
+    
+    
 })
 
 
@@ -78,4 +92,20 @@ router.get("/product-delete/:id", protectPrivateRoute, async (req, res, next ) =
     }
   });
 
+//ADD TAG
+router.post('/add-tag', async (req, res, next) => {
+    try {
+        await Tag.create(req.body)
+        res.redirect('/prod-add')
+    }catch(err){
+        console.log(err)
+        next(err)
+    }
+    
+})
+
+
+
 module.exports = router;
+
+
