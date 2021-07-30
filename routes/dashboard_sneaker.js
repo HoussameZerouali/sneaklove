@@ -25,11 +25,14 @@ router.post('/prod-add', protectPrivateRoute, fileUploader.single('image'), asyn
   
     try{
         const data = req.body
-        const img = req.file.path
-        console.log(req.body)
-        console.log(req.file)
-        console.log('DATAAAAAAA', {...data, image: img})
-        const newSneaker = await Sneaker.create({...data, image: img})
+        const img = req.file
+
+        if(img){
+            await Sneaker.create({...data, image: img.path})
+        }
+        else{
+            await Sneaker.create(data)
+        }
 
         res.redirect('/prod-add')
     }
@@ -96,7 +99,7 @@ router.get("/product-delete/:id", protectPrivateRoute, async (req, res, next ) =
   });
 
 //ADD TAG
-router.post('/add-tag', async (req, res, next) => {
+router.post('/add-tag', protectPrivateRoute, async (req, res, next) => {
     try {
         await Tag.create(req.body)
         res.redirect('/prod-add')

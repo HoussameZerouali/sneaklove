@@ -56,6 +56,7 @@ app.use(require("./middlewares/exposeFlashMessage")); // expose flash messages t
 app.use("/", require("./routes/index"));
 app.use('/', require('./routes/auth'));
 app.use('/', require('./routes/dashboard_sneaker'))
+app.use('/', require('./routes/ajax/tags'))
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

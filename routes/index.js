@@ -26,7 +26,8 @@ router.get("/sneakers/:cat", async (req, res, next) => {
     res.render('products', {
       category, 
       sneakers,
-      tags
+      tags, 
+      scripts : ["ajax.js"]
     })
   }
   catch(err){
