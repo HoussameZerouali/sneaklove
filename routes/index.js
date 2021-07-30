@@ -8,12 +8,14 @@ router.get("/", (req, res) => {
 });
 
 router.get("/sneakers/:cat", (req, res) => {
-  res.send('sneaker category')
+  res.render('products', {
+    category: req.params.cat
+  })
 });
 
 router.get("/one-product/:id", (req, res) => {
   res.render('one_product', {
-    sneaker: sneaker,
+    sneaker: req.params.id,
   })
 });
 
