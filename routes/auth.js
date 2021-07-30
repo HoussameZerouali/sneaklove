@@ -44,34 +44,43 @@ router.get("/signin", (req, res) => {
   });
 
 router.post("/signin", async (req, res, next) => {
-  console.log('BODY')
+    
+    console.log(req.body)  
     try{
-      const {email, password} = req.body
+      const email  = req.body.email
+      const password = req.body.password
+      console.log(email, password)  
 
-      const user = await User.findOne({email: email})
-  
-      if(!user) throw new Error({status: "error", text: "Wrong credentials"})
-      
+      const user = await User.findOne({email})
+
+      if(!user) throw new Error({status: 204, text: "Wrong credentials"})
+
       const isValidPwd = bcrypt.compareSync(
         password,
         user.password
       )
 
-      if(!isValidPwd) throw new Error({status: "error", text: "Wrong credentials"})
+      if(!isValidPwd) throw new Error({status: 204, text: "Wrong credentials"})
 
       req.session.currentUser = user
-      
-      res.status(204).redirect('/')
+      res.redirect('/' )
  
     }
     catch(err){
       console.log('Err connecting')
-
+      console.log(err) 
       res.render('signin', {
         msg : {status: err.status, text: err.text}
       })
     }
     
+  });
+
+  router.get('/logout', (req, res, next) => {
+    req.session.destroy(err => {
+      if (err) next(err);
+      res.redirect('/');
+    });
   });
 
 module.exports = router;
