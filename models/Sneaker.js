@@ -7,12 +7,12 @@ const sneakerSchema = new Schema({
         size: Number,  
         description: String,  
         price: Number,  
-        image: String,
+        imageURL: String,
         category: {
             type: String,
             enum: ["men", "women", "kids"]
         },  
-        //id_tags: [ObjectId]
+        id_tags: {type: Schema.Types.ObjectId, ref: "Tag"}
       
 })
 

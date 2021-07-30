@@ -1,5 +1,6 @@
 const express = require("express");
 const Sneaker = require("../models/Sneaker");
+const Tag = require("../models/Tag");
 const router = express.Router();
 
 
@@ -15,15 +16,17 @@ router.get("/sneakers/:cat", async (req, res, next) => {
   try{
     if(category === "collection"){
       sneakers = await Sneaker.find()
+      
     }
     else{
       sneakers = await Sneaker.find({category})
     }
-  
+    const tags = await Tag.find()
     console.log(sneakers)
     res.render('products', {
       category, 
-      sneakers
+      sneakers,
+      tags
     })
   }
   catch(err){
