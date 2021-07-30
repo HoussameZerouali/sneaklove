@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const Sneaker = require('../../models/Sneaker')
 
-router.get('/filter/:id', async (res, req, next) => {
-
+router.post('/filter/:id', async (req, res, next) => {
+    console.log(req.params)
     try{
-        console.log(req.params)
         const id = req.params.id
         const data = await Sneaker.find({id_tags: id})
 
