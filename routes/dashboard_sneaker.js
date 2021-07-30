@@ -19,7 +19,7 @@ router.post('/prod-add', protectPrivateRoute, async (req, res, next) => {
         const data = req.body
 
         const newSneaker = await Sneaker.create(data)
-        res.redirect('/one-product/' + newSneaker._id)
+        res.redirect('/prod-add')
         console.log('new sneaker created', data)
     }
     catch(err){
