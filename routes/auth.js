@@ -21,7 +21,7 @@ router.post("/signup", async (req, res, next) => {
     if(alreadyExist) throw new Error({status: "error", text: "Email already exists"})
 
     const salt = bcrypt.genSaltSync(saltRounds);
-    const hashedpwd = bcrypt.hashSync(dat.password, salt);
+    const hashedpwd = bcrypt.hashSync(data.password, salt);
     data.password = hashedpwd
 
     const newUser = await User.create(data)
@@ -30,29 +30,28 @@ router.post("/signup", async (req, res, next) => {
     console.log('New user created: ', newUser)
   }
   catch(err){
-    console.log('Err creating new user', err)
-
+    console.log('err creating user')
+    console.log(err)
     res.render('signup', {
       msg : {status: err.status, text: err.text}
     })
   }
-
 });
   
-  router.get("/signin", (req, res) => {
+//SIGN IN
+router.get("/signin", (req, res) => {
     res.render("signin");
   });
 
-  //SIGN IN
-  router.post("/signin", async (req, res, next) => {
-
+router.post("/signin", async (req, res, next) => {
+  console.log('BODY')
     try{
       const {email, password} = req.body
 
-      const user = await User.findOne({email})
-
+      const user = await User.findOne({email: email})
+  
       if(!user) throw new Error({status: "error", text: "Wrong credentials"})
-
+      
       const isValidPwd = bcrypt.compareSync(
         password,
         user.password
@@ -61,7 +60,8 @@ router.post("/signup", async (req, res, next) => {
       if(!isValidPwd) throw new Error({status: "error", text: "Wrong credentials"})
 
       req.session.currentUser = user
-      res.redirect('/', {msg: "You are logged in !"})
+      
+      res.status(204).redirect('/')
  
     }
     catch(err){
