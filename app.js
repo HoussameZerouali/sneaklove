@@ -8,7 +8,7 @@ const app = express();
 const createError = require("http-errors");
 const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
-const hbo = require("hbs");
+const hbs = require("hbs");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const dev_mode = false;
@@ -19,7 +19,7 @@ app.use(logger("dev"));
 
 // initial config
 app.set("view engine", "hbs");
-app.set("views", __dirname + "/view");
+app.set("views", __dirname + "/views");
 app.use(express.static("public"));
 hbs.registerPartials(__dirname + "/views/partials");
 app.use(express.urlencoded({ extended: false }));
@@ -31,7 +31,7 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET,
     cookie: { maxAge: 60000 }, // in millisec
-    store: MongoStore.create({ mongoUrl: process.env.MOGO_URL }),
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
     saveUninitialized: true,
     resave: true,
   })
