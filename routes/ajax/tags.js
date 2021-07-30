@@ -16,4 +16,18 @@ router.post('/filter/:id', async (req, res, next) => {
     }
 })
 
+router.post('/nofilter', async (req, res, next) => {
+
+    try{
+        const data = await Sneaker.find()
+
+        res.status(200).json(data)
+    }
+    catch(err){
+        console.log('AJAX err', err)
+        next(err)
+    }
+})
+
+
 module.exports = router
