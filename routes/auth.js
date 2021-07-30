@@ -21,7 +21,7 @@ router.post("/signup", async (req, res, next) => {
     if(alreadyExist) throw new Error({status: "error", text: "Email already exists"})
 
     const salt = bcrypt.genSaltSync(saltRounds);
-    const hashedpwd = bcrypt.hashSync(password, salt);
+    const hashedpwd = bcrypt.hashSync(data.password, salt);
     data.password = hashedpwd
 
     const newUser = await User.create(data)
@@ -30,20 +30,21 @@ router.post("/signup", async (req, res, next) => {
     console.log('New user created: ', newUser)
   }
   catch(err){
-
+    console.log('err creating user')
+    console.log(err)
     res.render('signup', {
       msg : {status: err.status, text: err.text}
     })
   }
-  console.log('Err creating new user')
+  
 
 });
   
-  router.get("/signin", (req, res) => {
+router.get("/signin", (req, res) => {
     res.render("signin");
   });
 
-  router.post("/signin", async (req, res, next) => {
+router.post("/signin", async (req, res, next) => {
 
     try{
       const {email, password} = req.body
