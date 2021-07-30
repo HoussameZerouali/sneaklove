@@ -28,5 +28,13 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HoussameZerouali/sneaklove.git"
+  },
+  "bugs": {
+    "url": "https://github.com/HoussameZerouali/sneaklove/issues"
+  },
+  "homepage": "https://github.com/HoussameZerouali/sneaklove#readme"
 }
