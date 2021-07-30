@@ -7,7 +7,7 @@ const sneakerSchema = new Schema({
         size: Number,  
         description: String,  
         price: Number,  
-        imageURL: String,
+        image: String,
         category: {
             type: String,
             enum: ["men", "women", "kids"]
